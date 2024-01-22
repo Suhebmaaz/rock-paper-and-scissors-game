@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style>
+      body{
+        background-color: rgb(25,25,25);
+        color: white;
+        font-family:Arial, Helvetica, sans-serif ;
+      }
+      .css-mainP{
+        font-size: xx-large;
+        font-weight: bold;
+      }
+      .css-rps{
+        height: 50px;
+      }
+      .css-button{
+        background-color: transparent;
+        border: 3px solid white;
+        border-radius: 70px;
+        cursor: pointer;
+        padding: 35px;
+        margin-right: 10px;
+      }
+      .css-result{
+        font-size:x-large;
+        font-weight: bold;
+        margin-top: 50px;
+      }
+      .css-movies{
+        margin-top: 40PX;
+        margin-bottom: 40PX;
+      }
+      .css-scorebutton{
+        padding: 15px 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <P class="css-mainP">Rock Paper Scissors</P>
+    <button onclick="
+    compare('rock'); "
+    class="css-button"><img class="css-rps" src="rock-emoji.png"></button>
+
+    <button onclick="
+    compare('Paper');"
+    class="css-button"><img class="css-rps" src="paper-emoji.png"></button>
+
+    <button onclick="
+    compare('Scissors')"
+    class="css-button"><img class="css-rps" src="scissors-emoji.png"></button>
+
+    <p class="js-result css-result"></p>
+    <p class="js-moves css-moves"></p>
+    <p class="js-score cass-score"></p>
+
+    <button onclick="score.win=0;score.lose=0;score.tie=0;
+    localStorage.removeItem('score')
+    updateScore();" class="css-scorebutton">Reset score</button>
+    <script>
+      const score=JSON.parse(localStorage.getItem('score')) ||{win:0,lose:0,tie:0};
+      updateScore();
+    function compare(playermove)
+    {
+      let computerNumber=comuterMove();
+      let result;
+      
+      if(playermove==='rock'){
+        if(computerNumber === 'rock')
+          result='is a tie';
+        else if(computerNumber=== 'Paper')
+          result='you loos';
+        else if(computerNumber === 'Scissors')
+          result='you win';
+      }
+      else if(playermove==='Paper'){
+        if(computerNumber === 'rock')
+          result='you win';
+        else if(computerNumber=== 'Paper')
+          result='is a tie';
+        else if(computerNumber === 'Scissors')
+          result='you loos';
+      }
+      else if(playermove==='Scissors'){
+        if(computerNumber === 'rock')
+          result='you loos';
+        else if(computerNumber=== 'Paper')
+          result='you win';
+        else if(computerNumber === 'Scissors')
+          result='is a tie';
+      }
+
+      document.querySelector('.js-result').innerHTML=result;
+      document.querySelector('.js-moves').innerHTML=`you <img src="${playermove}-emoji.png" class="css-rps"> | <img src="${computerNumber}-emoji.png" class="css-rps"> computer `;
+
+      if(result==='is a tie')
+        score.tie+=1;
+      else if(result==='you win')
+        score.win+=1;
+      else if(result==='you loos')
+        score.lose+=1;
+
+      localStorage.getItem('score',JSON.stringify(score))
+      updateScore();
+    }
+    function comuterMove(){
+      let randonNumber=Math.random();
+      console.log(randonNumber);
+      let computerNumber;
+      if(randonNumber>=0 && randonNumber < 1/3){
+        computerNumber='rock';
+      }
+        
+      else if(randonNumber>=1/3 && randonNumber< 2/3){
+        computerNumber='Paper';
+      }
+        
+      else if(randonNumber>=2/3 && randonNumber< 1){
+        computerNumber='Scissors';
+      }
+        
+      return computerNumber;
+    }
+
+    function updateScore(){
+      document.querySelector('.js-score').innerHTML=`win:${score.win}, loos:${score.lose}, tie:${score.tie}`;
+    }
+    </script>
+    </body>
+</html>
